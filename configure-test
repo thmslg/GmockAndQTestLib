@@ -1,0 +1,20 @@
+# Qt binaries installation directory (comment out to use system qt install)
+QT_BIN_DIR=/opt/Qt5.3.1/5.3/gcc_64/bin
+
+# Project root directory
+DEVTEST_ROOT_DIR=`pwd`
+
+# qmake and rcc binary path (use default qt install by default)
+QMAKE=qmake
+RCC=rcc
+if [ -n "${QT_BIN_DIR}" ]; then
+  QMAKE=${QT_BIN_DIR}/qmake
+  RCC=${QT_BIN_DIR}/rcc
+fi
+
+# Create Makefiles
+CONFIG_FILE=${DEVTEST_ROOT_DIR}/DTConfig.pri OUTPUT_DIR=${DEVTEST_ROOT_DIR}/output-test RCC=${RCC} \
+  MULTILIB=x86_64-linux-gnu ${QMAKE} -makefile -recursive GoogleMockTest.pro
+
+echo ">>>    Run 'make all' to build or 'make check' to build and run tests"
+
